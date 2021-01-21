@@ -38,13 +38,13 @@ namespace Bottom_NET.CLI
             {
                 if (!(bottomify || regress))
                 {
-                    Console.Error.WriteLine("TODO.");
+                    Console.Error.WriteLine("No encoding option set.");
                     return;
                 }
 
                 if (bottomify && regress)
                 {
-                    Console.Error.WriteLine("TODO.");
+                    Console.Error.WriteLine("Both encoding options set, only set one.");
                     return;
                 }
 
