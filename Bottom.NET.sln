@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bottom_NET", "src\BOTTOM_NE
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bottom_NET.CLI", "src\Bottom_NET.CLI\Bottom_NET.CLI.csproj", "{AE84B329-8D06-42F7-8C00-A98F4509552A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bottom_NET.UnitTest", "src\Bottom_NET.UnitTest\Bottom_NET.UnitTest.csproj", "{7329DA25-3FBA-495F-B31E-C1ADD852DA09}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bottom_NET.Bench", "src\Bottom_NET.Bench\Bottom_NET.Bench.csproj", "{0814B595-304D-4DA8-B8EE-AB838B9289B2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{AE84B329-8D06-42F7-8C00-A98F4509552A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE84B329-8D06-42F7-8C00-A98F4509552A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE84B329-8D06-42F7-8C00-A98F4509552A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7329DA25-3FBA-495F-B31E-C1ADD852DA09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7329DA25-3FBA-495F-B31E-C1ADD852DA09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7329DA25-3FBA-495F-B31E-C1ADD852DA09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7329DA25-3FBA-495F-B31E-C1ADD852DA09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0814B595-304D-4DA8-B8EE-AB838B9289B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0814B595-304D-4DA8-B8EE-AB838B9289B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0814B595-304D-4DA8-B8EE-AB838B9289B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0814B595-304D-4DA8-B8EE-AB838B9289B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

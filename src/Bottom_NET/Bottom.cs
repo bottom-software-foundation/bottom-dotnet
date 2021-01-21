@@ -19,7 +19,7 @@ namespace Bottom_NET
             {0, "❤️"}
         };
 
-        private static readonly Dictionary<byte, string> _byte_to_emoji = MapByteToEmoji();
+        private static readonly string[] _byte_to_emoji = MapByteToEmoji();
         private static readonly Dictionary<string, byte> _emoji_to_byte = MapEmojiToByte();
 
         # region Public methods
@@ -85,9 +85,9 @@ namespace Bottom_NET
             return buffer.ToString();
         }
 
-        private static Dictionary<byte, string> MapByteToEmoji()
+        private static string[] MapByteToEmoji()
         {
-            Dictionary<byte, string> mapping = new Dictionary<byte, string>();
+            string[] mapping = new string[256];
 
             byte i = 0;
             do
@@ -103,10 +103,12 @@ namespace Bottom_NET
         {
             Dictionary<string, byte> mapping = new Dictionary<string, byte>();
 
-            foreach (KeyValuePair<byte, string> map in _byte_to_emoji)
+            byte i = 0;
+            do
             {
-                mapping[map.Value] = map.Key;
-            }
+                mapping[_byte_to_emoji[i]] = i;
+                i++;
+            } while (i != 0);
 
             return mapping;
         }
