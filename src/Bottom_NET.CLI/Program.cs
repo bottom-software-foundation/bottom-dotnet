@@ -38,7 +38,7 @@ namespace Bottom_NET.CLI
             {
                 if (!(bottomify || regress))
                 {
-                    Console.Error.WriteLine("No encoding option set.");
+                    rootCommand.InvokeAsync("--help");
                     return;
                 }
 
@@ -60,7 +60,8 @@ namespace Bottom_NET.CLI
                         Console.Error.WriteLine($"Input file \"{input.FullName}\" does not exist.");
                         return;
                     }
-                    text = input.OpenText().ReadToEnd();
+                    using StreamReader sr = input.OpenText();
+                    text = sr.ReadToEnd();
                 }
 
                 string result;
