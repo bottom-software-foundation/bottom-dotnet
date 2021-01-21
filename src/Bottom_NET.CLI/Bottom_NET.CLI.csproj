@@ -6,6 +6,7 @@
     <RootNamespace>Bottom_NET.CLI</RootNamespace>
     <StartupObject>Bottom_NET.CLI.Program</StartupObject>
     <Version>1.1.0</Version>
+    <AssemblyName>bottom</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
