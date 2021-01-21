@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BOTTOM_NET\Bottom_NET.csproj" />
+    <ProjectReference Include="..\Bottom_NET\Bottom_NET.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,49 @@
+name: Build Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-dotnet@v1
+      - name: Build Projects
+        run: dotnet build
+      - name: Publish CLI tool
+        run: |
+          dotnet publish -c Release -r win-x64 -p:PublishSingleFile=true --self-contained true -o build .\src\Bottom_NET.CLI\
+          dotnet publish -c Release -r linux-x64 -p:PublishSingleFile=true --self-contained true -o build .\src\Bottom_NET.CLI\
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: TODO
+          draft: false
+          prerelease: false
+      - name: Upload Windows Build
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build/bottom.exe
+          asset_name: bottom_win-x64.exe
+          asset_content_type: application/octet-stream
+      - name: Upload Linux Build
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build/bottom
+          asset_name: bottom_linux-x64
+          asset_content_type: application/octet-stream
