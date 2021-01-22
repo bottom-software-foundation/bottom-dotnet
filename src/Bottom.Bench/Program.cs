@@ -4,7 +4,7 @@ using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Reports;
 using BenchmarkDotNet.Running;
 
-namespace Bottom_NET.Bench
+namespace Bottom.Bench
 {
 
     [WarmupCount(5)]
@@ -23,14 +23,14 @@ namespace Bottom_NET.Bench
             _encode_data = BenchmarkData.ENCODE_INPUT[N];
             _decode_data = BenchmarkData.DECODE_INPUT[N];
 
-            Bottom.encode_byte(0); // preload cache
+            Bottomify.encode_byte(0); // preload cache
         }
 
         [Benchmark]
-        public string Encode() => Bottom.encode_string(_encode_data);
+        public string Encode() => Bottomify.encode_string(_encode_data);
 
         [Benchmark]
-        public string Decode() => Bottom.decode_string(_decode_data);
+        public string Decode() => Bottomify.decode_string(_decode_data);
 
     }
 

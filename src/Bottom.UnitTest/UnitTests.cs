@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Bottom_NET;
 
-namespace Bottom_NET.UnitTest
+namespace Bottom.UnitTest
 {
     [TestClass]
     public class UnitTests
@@ -10,7 +9,7 @@ namespace Bottom_NET.UnitTest
         public void TestStringEncode()
         {
             Assert.AreEqual(
-                Bottom.encode_string("Test"),
+                Bottomify.encode_string("Test"),
                 "💖✨✨✨,,,,👉👈💖💖,👉👈💖💖✨🥺👉👈💖💖✨🥺,👉👈"
             );
         }
@@ -19,7 +18,7 @@ namespace Bottom_NET.UnitTest
         public void TestByteEncode()
         {
             Assert.AreEqual(
-                Bottom.encode_byte((byte)'h'),
+                Bottomify.encode_byte((byte)'h'),
                 "💖💖,,,,👉👈"
             );
         }
@@ -28,7 +27,7 @@ namespace Bottom_NET.UnitTest
         public void TestByteDecode()
         {
             Assert.AreEqual(
-                Bottom.decode_byte("💖💖,,,,"),
+                Bottomify.decode_byte("💖💖,,,,"),
                 (byte)'h'
             );
         }
@@ -37,11 +36,11 @@ namespace Bottom_NET.UnitTest
         public void TestStringDecode()
         {
             Assert.AreEqual(
-                Bottom.decode_string("💖✨✨✨,,,,\u200B💖💖,\u200B💖💖✨🥺\u200B💖💖✨🥺,\u200B"),
+                Bottomify.decode_string("💖✨✨✨,,,,\u200B💖💖,\u200B💖💖✨🥺\u200B💖💖✨🥺,\u200B"),
                 "Test"
             );
             Assert.AreEqual(
-                Bottom.decode_string("💖✨✨✨,,,,👉👈💖💖,👉👈💖💖✨🥺👉👈💖💖✨🥺,👉👈"),
+                Bottomify.decode_string("💖✨✨✨,,,,👉👈💖💖,👉👈💖💖✨🥺👉👈💖💖✨🥺,👉👈"),
                 "Test"
             );
         }
@@ -50,11 +49,11 @@ namespace Bottom_NET.UnitTest
         public void TestUnicodeStringEncode()
         {
             Assert.AreEqual(
-                Bottom.encode_string("🥺"),
+                Bottomify.encode_string("🥺"),
                 "🫂✨✨✨✨👉👈💖💖💖🥺,,,,👉👈💖💖💖✨🥺👉👈💖💖💖✨✨✨🥺,👉👈"
             );
             Assert.AreEqual(
-                Bottom.encode_string("がんばれ"),
+                Bottomify.encode_string("がんばれ"),
                 "🫂✨✨🥺,,👉👈💖💖✨✨🥺,,,,👉👈💖💖✨✨✨✨👉👈🫂✨✨🥺,,👉👈" +
                 "💖💖✨✨✨👉👈💖💖✨✨✨✨🥺,,👉👈🫂✨✨🥺,,👉👈💖💖✨✨🥺,,,,👉👈" +
                 "💖💖💖✨✨🥺,👉👈🫂✨✨🥺,,👉👈💖💖✨✨✨👉👈💖💖✨✨✨✨👉👈"
@@ -65,11 +64,11 @@ namespace Bottom_NET.UnitTest
         public void TestUnicodeStringDecode()
         {
             Assert.AreEqual(
-                Bottom.decode_string("🫂✨✨✨✨👉👈💖💖💖🥺,,,,👉👈💖💖💖✨🥺👉👈💖💖💖✨✨✨🥺,👉👈"),
+                Bottomify.decode_string("🫂✨✨✨✨👉👈💖💖💖🥺,,,,👉👈💖💖💖✨🥺👉👈💖💖💖✨✨✨🥺,👉👈"),
                 "🥺"
             );
             Assert.AreEqual(
-                Bottom.decode_string(
+                Bottomify.decode_string(
                     "🫂✨✨🥺,,👉👈💖💖✨✨🥺,,,,👉👈💖💖✨✨✨✨👉👈🫂✨✨🥺,,👉👈" +
                     "💖💖✨✨✨👉👈💖💖✨✨✨✨🥺,,👉👈🫂✨✨🥺,,👉👈💖💖✨✨🥺,,,,👉👈" +
                     "💖💖💖✨✨🥺,👉👈🫂✨✨🥺,,👉👈💖💖✨✨✨👉👈💖💖✨✨✨✨👉👈"

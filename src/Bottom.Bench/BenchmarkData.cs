@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Bottom_NET.Bench
+namespace Bottom.Bench
 {
     public static class BenchmarkData
     {

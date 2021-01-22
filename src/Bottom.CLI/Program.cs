@@ -4,7 +4,7 @@ using System.CommandLine.Invocation;
 using System.IO;
 using System.Text;
 
-namespace Bottom_NET.CLI
+namespace Bottom.CLI
 {
     class Program
     {
@@ -67,11 +67,11 @@ namespace Bottom_NET.CLI
                 string result;
                 if (bottomify)
                 {
-                    result = Bottom.encode_string(text);
+                    result = Bottomify.encode_string(text);
                 }
                 else
                 {
-                    result = Bottom.decode_string(text);
+                    result = Bottomify.decode_string(text);
                 }
 
                 if (!(output is null))

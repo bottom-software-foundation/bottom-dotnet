@@ -3,8 +3,8 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>Bottom_NET.CLI</RootNamespace>
-    <StartupObject>Bottom_NET.CLI.Program</StartupObject>
+    <RootNamespace>Bottom.CLI</RootNamespace>
+    <StartupObject>Bottom.CLI.Program</StartupObject>
     <Version>1.1.0</Version>
     <AssemblyName>bottom</AssemblyName>
   </PropertyGroup>
@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Bottom_NET\Bottom_NET.csproj" />
+    <ProjectReference Include="..\Bottom\Bottom.csproj" />
   </ItemGroup>
 
 </Project>

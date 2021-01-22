@@ -15,9 +15,9 @@ jobs:
       - name: Build Projects
         run: dotnet build
       - name: Publish Windows CLI tool
-        run: dotnet publish -c Release -r win-x64 -p:PublishSingleFile=true --self-contained true -o build ./src/Bottom_NET.CLI
+        run: dotnet publish -c Release -r win-x64 -p:PublishSingleFile=true --self-contained true -o build ./src/Bottom.CLI
       - name: Publish Linux CLI tool
-        run: dotnet publish -c Release -r linux-x64 -p:PublishSingleFile=true --self-contained true -o build ./src/Bottom_NET.CLI
+        run: dotnet publish -c Release -r linux-x64 -p:PublishSingleFile=true --self-contained true -o build ./src/Bottom.CLI
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
@@ -50,7 +50,7 @@ jobs:
       - name: Publish NuGet Package
         uses: brandedoutcast/publish-nuget@v2.5.5
         with:
-          PROJECT_FILE_PATH: ./src/Bottom_NET/Bottom_NET.csproj
+          PROJECT_FILE_PATH: ./src/Bottom/Bottom.csproj
           TAG_COMMIT: false
           NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
 

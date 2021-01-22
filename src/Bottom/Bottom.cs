@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Bottom_NET
+namespace Bottom
 {
-    public static class Bottom
+    public static class Bottomify
     {
         private const string LINE_ENDING = "👉👈";
 
