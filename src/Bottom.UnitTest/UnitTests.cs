@@ -6,11 +6,41 @@ namespace Bottom.UnitTest
     public class UnitTests
     {
         [TestMethod]
+        public void TestIsCharacterValueGroup()
+        {
+            Assert.AreEqual(
+                true,
+                Bottomify.IsCharacterValueGroup("💖💖,,,,👉👈")
+            );
+            Assert.AreEqual(
+                false,
+                Bottomify.IsCharacterValueGroup("💖✨✨✨,,,,\u200B💖💖,\u200B💖💖✨🥺\u200B💖💖✨🥺,\u200B")
+            );
+            Assert.AreEqual(
+                true,
+                Bottomify.IsCharacterValueGroup("hello")
+            );
+        }
+
+        [TestMethod]
+        public void TestIsEncoded()
+        {
+            Assert.AreEqual(
+                true,
+                Bottomify.IsEncoded("💖✨✨✨,,,,\u200B💖💖,\u200B💖💖✨🥺\u200B💖💖✨🥺,\u200B")
+            );
+            Assert.AreEqual(
+                false,
+                Bottomify.IsEncoded("Hello")
+            );
+        }
+
+        [TestMethod]
         public void TestStringEncode()
         {
             Assert.AreEqual(
-                Bottomify.encode_string("Test"),
-                "💖✨✨✨,,,,👉👈💖💖,👉👈💖💖✨🥺👉👈💖💖✨🥺,👉👈"
+                "💖✨✨✨,,,,👉👈💖💖,👉👈💖💖✨🥺👉👈💖💖✨🥺,👉👈",
+                Bottomify.EncodeString("Test")
             );
         }
 
@@ -18,17 +48,21 @@ namespace Bottom.UnitTest
         public void TestByteEncode()
         {
             Assert.AreEqual(
-                Bottomify.encode_byte((byte)'h'),
-                "💖💖,,,,👉👈"
+                "💖💖,,,,👉👈",
+                Bottomify.EncodeByte((byte)'h')
             );
         }
 
         [TestMethod]
-        public void TestByteDecode()
+        public void TestCharacterValueGroupDecode()
         {
             Assert.AreEqual(
-                Bottomify.decode_byte("💖💖,,,,"),
-                (byte)'h'
+                (byte)'h',
+                 Bottomify.DecodeCharacterValueGroup("💖💖,,,,👉👈")
+            );
+            Assert.AreEqual(
+                (byte)'a',
+                Bottomify.DecodeCharacterValueGroup("💖✨✨✨✨,,,,,,,👉👈")
             );
         }
 
@@ -36,12 +70,12 @@ namespace Bottom.UnitTest
         public void TestStringDecode()
         {
             Assert.AreEqual(
-                Bottomify.decode_string("💖✨✨✨,,,,\u200B💖💖,\u200B💖💖✨🥺\u200B💖💖✨🥺,\u200B"),
-                "Test"
+                "Test",
+                Bottomify.DecodeString("💖✨✨✨,,,,\u200B💖💖,\u200B💖💖✨🥺\u200B💖💖✨🥺,\u200B")
             );
             Assert.AreEqual(
-                Bottomify.decode_string("💖✨✨✨,,,,👉👈💖💖,👉👈💖💖✨🥺👉👈💖💖✨🥺,👉👈"),
-                "Test"
+                "Test",
+                Bottomify.DecodeString("💖✨✨✨,,,,👉👈💖💖,👉👈💖💖✨🥺👉👈💖💖✨🥺,👉👈")
             );
         }
 
@@ -49,14 +83,14 @@ namespace Bottom.UnitTest
         public void TestUnicodeStringEncode()
         {
             Assert.AreEqual(
-                Bottomify.encode_string("🥺"),
-                "🫂✨✨✨✨👉👈💖💖💖🥺,,,,👉👈💖💖💖✨🥺👉👈💖💖💖✨✨✨🥺,👉👈"
+                "🫂✨✨✨✨👉👈💖💖💖🥺,,,,👉👈💖💖💖✨🥺👉👈💖💖💖✨✨✨🥺,👉👈",
+                Bottomify.EncodeString("🥺")
             );
             Assert.AreEqual(
-                Bottomify.encode_string("がんばれ"),
                 "🫂✨✨🥺,,👉👈💖💖✨✨🥺,,,,👉👈💖💖✨✨✨✨👉👈🫂✨✨🥺,,👉👈" +
                 "💖💖✨✨✨👉👈💖💖✨✨✨✨🥺,,👉👈🫂✨✨🥺,,👉👈💖💖✨✨🥺,,,,👉👈" +
-                "💖💖💖✨✨🥺,👉👈🫂✨✨🥺,,👉👈💖💖✨✨✨👉👈💖💖✨✨✨✨👉👈"
+                "💖💖💖✨✨🥺,👉👈🫂✨✨🥺,,👉👈💖💖✨✨✨👉👈💖💖✨✨✨✨👉👈",
+                Bottomify.EncodeString("がんばれ")
             );
         }
 
@@ -64,16 +98,16 @@ namespace Bottom.UnitTest
         public void TestUnicodeStringDecode()
         {
             Assert.AreEqual(
-                Bottomify.decode_string("🫂✨✨✨✨👉👈💖💖💖🥺,,,,👉👈💖💖💖✨🥺👉👈💖💖💖✨✨✨🥺,👉👈"),
-                "🥺"
+                "🥺",
+                Bottomify.DecodeString("🫂✨✨✨✨👉👈💖💖💖🥺,,,,👉👈💖💖💖✨🥺👉👈💖💖💖✨✨✨🥺,👉👈")
             );
             Assert.AreEqual(
-                Bottomify.decode_string(
+                "がんばれ",
+                Bottomify.DecodeString(
                     "🫂✨✨🥺,,👉👈💖💖✨✨🥺,,,,👉👈💖💖✨✨✨✨👉👈🫂✨✨🥺,,👉👈" +
                     "💖💖✨✨✨👉👈💖💖✨✨✨✨🥺,,👉👈🫂✨✨🥺,,👉👈💖💖✨✨🥺,,,,👉👈" +
                     "💖💖💖✨✨🥺,👉👈🫂✨✨🥺,,👉👈💖💖✨✨✨👉👈💖💖✨✨✨✨👉👈"
-                ),
-                "がんばれ"
+                )
             );
         }
     }

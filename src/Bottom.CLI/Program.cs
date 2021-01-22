@@ -69,11 +69,11 @@ namespace Bottom.CLI
                 string result;
                 if (bottomify)
                 {
-                    result = Bottomify.encode_string(text);
+                    result = Bottomify.EncodeString(text);
                 }
                 else
                 {
-                    result = Bottomify.decode_string(text);
+                    result = Bottomify.DecodeString(text);
                 }
 
                 if (!(output is null))

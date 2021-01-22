@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Bottom
 {
     public static class Bottomify
     {
+        #region Private Attributes
+
         private const string LINE_ENDING = "👉👈";
 
         private static readonly Dictionary<byte, string> _character_values = new Dictionary<byte, string>()
@@ -19,98 +22,193 @@ namespace Bottom
             {0, "❤️"}
         };
 
-        private static readonly string[] _byte_to_emoji = MapByteToEmoji();
-        private static readonly Dictionary<string, byte> _emoji_to_byte = MapEmojiToByte();
-
-        # region Public methods
-
-        public static string encode_byte(byte value)
+        private static readonly Dictionary<string, byte> _character_values_reversed = new Dictionary<string, byte>()
         {
-            return _byte_to_emoji[value] + LINE_ENDING;
+            {"🫂", 200},
+            {"💖", 50},
+            {"✨", 10},
+            {"🥺", 5},
+            {",", 1},
+            {"❤️", 0}
+        };
+
+        private static readonly string[] _byte_to_stripped_character_value_group = MapByteToStrippedCharacterValueGroup();
+        private static readonly Dictionary<string, byte> _stripped_character_value_group_to_byte = MapStrippedCharacterValueGroupToByte();
+
+        #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// Determines if an input string is a valid Bottom character value group.
+        /// </summary>
+        /// <param name="input">The string to validate.</param>
+        /// <returns>True if the input string is a Bottom chracter value group, otherwise false.</returns>
+        public static bool IsCharacterValueGroup(string input)
+        {
+            return IsStrippedCharacterValueGroup(StripCharacterValueGroup(input));
         }
 
-
-        public static byte decode_byte(string input)
+        /// <summary>
+        /// Encode a Byte in a Bottom character value group.
+        /// </summary>
+        /// <param name="value">The byte to encode.</param>
+        /// <returns>The encoded Bottom character value group.</returns>
+        public static string EncodeByte(byte value)
         {
-            if (_emoji_to_byte.ContainsKey(input))
-            {
-                return _emoji_to_byte[input];
-            }
-            throw new KeyNotFoundException($"Cannot decode character {input}");
+            return _byte_to_stripped_character_value_group[value] + LINE_ENDING;
         }
 
-        public static string encode_string(string input)
+        /// <summary>
+        /// Decode a Bottom character value group into a byte.
+        /// </summary>
+        /// <param name="input">The Bottom character value group to decode.</param>
+        /// <exception cref="KeyNotFoundException">A non-valid bottom character value group was passed.</exception>
+        /// <returns>The decoded byte.</returns>
+        public static byte DecodeCharacterValueGroup(string input)
         {
-            return string.Join("", Encoding.UTF8.GetBytes(input).Select(encode_byte).ToArray());
+            return DecodeStrippedCharacterValueGroup(StripCharacterValueGroup(input));
         }
 
-        public static string decode_string(string input)
+        /// <summary>
+        /// Determines whether a string is Bottom encoded.
+        /// </summary>
+        /// <param name="input">The string to validate.</param>
+        /// <returns>True if the input string is Bottom encoded, otherwise false.</returns>
+        public static bool IsEncoded(string input)
         {
-            string[] chars = input.Split(new string[] { "\u200B", LINE_ENDING }, StringSplitOptions.RemoveEmptyEntries);
-            return Encoding.UTF8.GetString(chars.Select(decode_byte).ToArray());
+            return GetStrippedCharacterValueGroups(input).All(s => IsStrippedCharacterValueGroup(s));
+        }
+
+        /// <summary>
+        /// Encode a string in Bottom.
+        /// </summary>
+        /// <param name="input">The string to encode.</param>
+        /// <returns>The Bottom encoded string.</returns>
+        public static string EncodeString(string input)
+        {
+            return string.Join("", Encoding.UTF8.GetBytes(input).Select(EncodeByte));
+        }
+
+        /// <summary>
+        /// Decode a Bottom encoded string.
+        /// </summary>
+        /// <param name="input">The Bottom encoded string to decode.</param>
+        /// <exception cref="KeyNotFoundException">The input string contained an invalid Bottom character value group.</exception>
+        /// <returns>The decoded string.</returns>
+        public static string DecodeString(string input)
+        {
+            return Encoding.UTF8.GetString(GetStrippedCharacterValueGroups(input).Select(DecodeStrippedCharacterValueGroup).ToArray());
         }
 
         #endregion
 
         #region Private Methods
+        
+        private static bool IsStrippedCharacterValueGroup(string input)
+        {
+            return GetCodepoints(input).All(s => _character_values_reversed.ContainsKey(s));
+        }
 
-        private static string ByteToEmoji(byte value)
+        private static byte DecodeStrippedCharacterValueGroup(string input)
+        {
+            if (_stripped_character_value_group_to_byte.ContainsKey(input))
+            {
+                return _stripped_character_value_group_to_byte[input];
+            }
+            else if (IsStrippedCharacterValueGroup(input))
+            {
+                return StrippedCharacterValueGroupToByte(input);
+            }
+            throw new KeyNotFoundException($"Cannot decode value character \"{input}\".");
+        }
+
+        private static string ByteToStrippedCharacterValueGroup(byte value)
         {
             StringBuilder buffer = new StringBuilder();
 
-            if (value == 0)
+            do
             {
-                return _character_values[0];
-            }
-
-            while (value > 0)
-            {
-                string to_push = string.Empty;
-                byte subtract_by = 0;
-
                 foreach (KeyValuePair<byte, string> mapping in _character_values)
                 {
                     if (value >= mapping.Key)
                     {
-                        to_push = mapping.Value;
-                        subtract_by = mapping.Key;
+                        buffer.Append(mapping.Value);
+                        value -= mapping.Key;
                         break;
                     }
                 }
+            } while (value > 0);
 
-                buffer.Append(to_push);
-                value -= subtract_by;
-            }
             return buffer.ToString();
         }
 
-        private static string[] MapByteToEmoji()
+        private static byte StrippedCharacterValueGroupToByte(string input)
+        {
+            byte value = 0;
+
+            foreach (string character_value in GetCodepoints(input))
+            {
+                value += _stripped_character_value_group_to_byte[character_value];
+            }
+
+            _stripped_character_value_group_to_byte[input] = value;
+            return value;
+        }
+
+        private static IEnumerable<string> GetStrippedCharacterValueGroups(string input)
+        {
+            return input.Split(new string[] { "\u200B", LINE_ENDING }, StringSplitOptions.RemoveEmptyEntries);
+        }
+
+        private static IEnumerable<string> GetCodepoints(string input)
+        {
+            for (int i = 0; i < input.Length; ++i)
+            {
+                yield return char.ConvertFromUtf32(char.ConvertToUtf32(input, i));
+                if (char.IsHighSurrogate(input, i))
+                {
+                    i++;
+                }
+            }
+        }
+
+        private static string StripCharacterValueGroup(string input)
+        {
+            return Regex.Match(input, @"(.*)(?=\u200B|(?=👉👈))").Value;
+        }
+
+        #region Initialiser Methods
+
+        private static string[] MapByteToStrippedCharacterValueGroup()
         {
             string[] mapping = new string[256];
 
             byte i = 0;
             do
             {
-                mapping[i] = ByteToEmoji(i);
+                mapping[i] = ByteToStrippedCharacterValueGroup(i);
                 i++;
             } while (i != 0);
 
             return mapping;
         }
 
-        private static Dictionary<string, byte> MapEmojiToByte()
+        private static Dictionary<string, byte> MapStrippedCharacterValueGroupToByte()
         {
             Dictionary<string, byte> mapping = new Dictionary<string, byte>();
 
             byte i = 0;
             do
             {
-                mapping[_byte_to_emoji[i]] = i;
+                mapping[_byte_to_stripped_character_value_group[i]] = i;
                 i++;
             } while (i != 0);
 
             return mapping;
         }
+
+        #endregion
 
         #endregion
 
