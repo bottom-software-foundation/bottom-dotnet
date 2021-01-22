@@ -4,6 +4,24 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <AssemblyName>Bottom_NET</AssemblyName>
     <RootNamespace>Bottom_NET</RootNamespace>
+    <Version>1.1.1</Version>
+    <PackageId>Bottom.NET</PackageId>
+    <Authors>Bottom Software Foundation</Authors>
+    <Product>Bottom.NET</Product>
+    <Description>Bottom encoding utility functions for .NET</Description>
+    <Copyright>2021</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <AssemblyVersion>1.1.1.0</AssemblyVersion>
+    <PackageProjectUrl>https://github.com/bottom-software-foundation/bottom-dotnet/</PackageProjectUrl>
+    <PackageIcon>logo.png</PackageIcon>
+    <RepositoryUrl>https://github.com/bottom-software-foundation/bottom-dotnet/</RepositoryUrl>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>

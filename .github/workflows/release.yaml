@@ -47,3 +47,10 @@ jobs:
           asset_path: build/bottom
           asset_name: bottom_linux-x64
           asset_content_type: application/octet-stream
+      - name: Publish NuGet Package
+        uses: brandedoutcast/publish-nuget@v2.5.5
+        with:
+          PROJECT_FILE_PATH: ./src/Bottom_NET/Bottom_NET.csproj
+          TAG_COMMIT: false
+          NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
+
