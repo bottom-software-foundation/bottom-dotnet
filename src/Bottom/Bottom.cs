@@ -30,7 +30,7 @@ namespace Bottom
         }
 
 
-        public static byte decode_byte(string input) 
+        public static byte decode_byte(string input)
         {
             if (_emoji_to_byte.ContainsKey(input))
             {
@@ -74,11 +74,10 @@ namespace Bottom
                     {
                         to_push = mapping.Value;
                         subtract_by = mapping.Key;
-                        goto push;
+                        break;
                     }
                 }
 
-                push:;
                 buffer.Append(to_push);
                 value -= subtract_by;
             }

@@ -35,7 +35,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/bottom.exe
+          asset_path: build/Bottom.CLI.exe
           asset_name: bottom_win-x64.exe
           asset_content_type: application/octet-stream
       - name: Upload Linux Build
@@ -44,7 +44,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/bottom
+          asset_path: build/Bottom.CLI
           asset_name: bottom_linux-x64
           asset_content_type: application/octet-stream
       - name: Publish NuGet Package
