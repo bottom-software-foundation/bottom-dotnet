@@ -42,6 +42,10 @@ namespace Bottom.UnitTest
                 "💖✨✨✨,,,,👉👈💖💖,👉👈💖💖✨🥺👉👈💖💖✨🥺,👉👈",
                 Bottomify.EncodeString("Test")
             );
+            Assert.AreEqual(
+                "💖✨✨✨,,,,👉👈💖💖,👉👈💖💖✨🥺👉👈💖💖✨🥺,👉👈❤️👉👈",
+                Bottomify.EncodeString("Test\0")
+            );
         }
 
         [TestMethod]
@@ -50,6 +54,10 @@ namespace Bottom.UnitTest
             Assert.AreEqual(
                 "💖💖,,,,👉👈",
                 Bottomify.EncodeByte((byte)'h')
+            );
+            Assert.AreEqual(
+                "❤️👉👈",
+                Bottomify.EncodeByte((byte)'\0')
             );
         }
 
@@ -64,6 +72,10 @@ namespace Bottom.UnitTest
                 (byte)'a',
                 Bottomify.DecodeCharacterValueGroup("💖✨✨✨✨,,,,,,,👉👈")
             );
+            Assert.AreEqual(
+                (byte)'\0',
+                Bottomify.DecodeCharacterValueGroup("❤️👉👈")
+            );
         }
 
         [TestMethod]
@@ -76,6 +88,10 @@ namespace Bottom.UnitTest
             Assert.AreEqual(
                 "Test",
                 Bottomify.DecodeString("💖✨✨✨,,,,👉👈💖💖,👉👈💖💖✨🥺👉👈💖💖✨🥺,👉👈")
+            );
+            Assert.AreEqual(
+                "Test\0",
+                Bottomify.DecodeString("💖✨✨✨,,,,👉👈💖💖,👉👈💖💖✨🥺👉👈💖💖✨🥺,👉👈❤️👉👈")
             );
         }
 
