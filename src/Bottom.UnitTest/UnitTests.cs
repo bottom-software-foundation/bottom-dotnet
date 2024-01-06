@@ -6,125 +6,91 @@ namespace Bottom.UnitTest
     public class UnitTests
     {
         [TestMethod]
-        public void TestIsCharacterValueGroup()
-        {
-            Assert.AreEqual(
-                true,
-                Bottomify.IsCharacterValueGroup("💖💖,,,,👉👈")
-            );
-            Assert.AreEqual(
-                false,
-                Bottomify.IsCharacterValueGroup("💖✨✨✨,,,,\u200B💖💖,\u200B💖💖✨🥺\u200B💖💖✨🥺,\u200B")
-            );
-            Assert.AreEqual(
-                true,
-                Bottomify.IsCharacterValueGroup("hello")
-            );
-        }
+        [DataRow(true, "💖💖,,,,👉👈")]
+        [DataRow(true, "❤️👉👈")]
+        [DataRow(false, "💖✨✨✨,,,,")]
+        [DataRow(false, "💖❤️👉👈")]
+        [DataRow(true, "💖✨✨✨,,,,\u200B")]
+        [DataRow(false, "💖✨✨✨,,,,\u200B💖💖,\u200B💖💖✨🥺\u200B💖💖✨🥺,\u200B")]
+        [DataRow(false, "👉👈")]
+        [DataRow(false, "hello")]
+        public void TestIsCharacterValueGroup(bool expectedResult, string input) => Assert.AreEqual(
+            expectedResult,
+            Bottomify.IsCharacterValueGroup(input)
+        );
+
 
         [TestMethod]
-        public void TestIsEncoded()
-        {
-            Assert.AreEqual(
-                true,
-                Bottomify.IsEncoded("💖✨✨✨,,,,\u200B💖💖,\u200B💖💖✨🥺\u200B💖💖✨🥺,\u200B")
-            );
-            Assert.AreEqual(
-                false,
-                Bottomify.IsEncoded("Hello")
-            );
-        }
+        [DataRow(true, "💖✨✨✨,,,,\u200B💖💖,\u200B💖💖✨🥺\u200B💖💖✨🥺,\u200B")]
+        [DataRow(false, "💖✨✨✨,,,,")]
+        [DataRow(false, "Hello")]
+        [DataRow(true, "")]
+        public void TestIsEncoded(bool expectedResult, string input) => Assert.AreEqual(
+            expectedResult,
+            Bottomify.IsEncoded(input)
+        );
+
 
         [TestMethod]
-        public void TestStringEncode()
-        {
-            Assert.AreEqual(
-                "💖✨✨✨,,,,👉👈💖💖,👉👈💖💖✨🥺👉👈💖💖✨🥺,👉👈",
-                Bottomify.EncodeString("Test")
-            );
-            Assert.AreEqual(
-                "💖✨✨✨,,,,👉👈💖💖,👉👈❤️👉👈💖💖✨🥺👉👈💖💖✨🥺,👉👈",
-                Bottomify.EncodeString("Te\0st")
-            );
-        }
+        [DataRow("💖✨✨✨,,,,👉👈💖💖,👉👈💖💖✨🥺👉👈💖💖✨🥺,👉👈", "Test")]
+        [DataRow("💖✨✨✨,,,,👉👈💖💖,👉👈❤️👉👈💖💖✨🥺👉👈💖💖✨🥺,👉👈", "Te\0st")]
+        public void TestStringEncode(string expectedResult, string input) => Assert.AreEqual(
+            expectedResult,
+            Bottomify.EncodeString(input)
+        );
+
 
         [TestMethod]
-        public void TestByteEncode()
-        {
-            Assert.AreEqual(
-                "💖💖,,,,👉👈",
-                Bottomify.EncodeByte((byte)'h')
-            );
-            Assert.AreEqual(
-                "❤️👉👈",
-                Bottomify.EncodeByte((byte)'\0')
-            );
-        }
+        [DataRow("💖💖,,,,👉👈", (byte)'h')]
+        [DataRow("💖✨✨✨✨🥺,,👉👈", (byte)'a')]
+        [DataRow("❤️👉👈", (byte)'\0')]
+        public void TestByteEncode(string expectedResult, byte input) => Assert.AreEqual(
+                expectedResult,
+                Bottomify.EncodeByte(input)
+        );
+
 
         [TestMethod]
-        public void TestCharacterValueGroupDecode()
-        {
-            Assert.AreEqual(
-                (byte)'h',
-                 Bottomify.DecodeCharacterValueGroup("💖💖,,,,👉👈")
-            );
-            Assert.AreEqual(
-                (byte)'a',
-                Bottomify.DecodeCharacterValueGroup("💖✨✨✨✨,,,,,,,👉👈")
-            );
-            Assert.AreEqual(
-                (byte)'\0',
-                Bottomify.DecodeCharacterValueGroup("❤️👉👈")
-            );
-        }
+        [DataRow((byte)'h', "💖💖,,,,👉👈")]
+        [DataRow((byte)'a', "💖✨✨✨✨,,,,,,,👉👈")]
+        [DataRow((byte)'a', "💖✨✨✨✨🥺,,👉👈")]
+        [DataRow((byte)'\0', "❤️👉👈")]
+        public void TestCharacterValueGroupDecode(byte expectedResult, string input) => Assert.AreEqual(
+            expectedResult,
+            Bottomify.DecodeCharacterValueGroup(input)
+        );
+
 
         [TestMethod]
-        public void TestStringDecode()
-        {
-            Assert.AreEqual(
-                "Test",
-                Bottomify.DecodeString("💖✨✨✨,,,,\u200B💖💖,\u200B💖💖✨🥺\u200B💖💖✨🥺,\u200B")
-            );
-            Assert.AreEqual(
-                "Test",
-                Bottomify.DecodeString("💖✨✨✨,,,,👉👈💖💖,👉👈💖💖✨🥺👉👈💖💖✨🥺,👉👈")
-            );
-            Assert.AreEqual(
-                "Te\0st",
-                Bottomify.DecodeString("💖✨✨✨,,,,👉👈💖💖,👉👈❤️👉👈💖💖✨🥺👉👈💖💖✨🥺,👉👈")
-            );
-        }
+        [DataRow("Test", "💖✨✨✨,,,,\u200B💖💖,\u200B💖💖✨🥺\u200B💖💖✨🥺,\u200B")]
+        [DataRow("Test", "💖✨✨✨,,,,👉👈💖💖,👉👈💖💖✨🥺👉👈💖💖✨🥺,👉👈")]
+        [DataRow("Te\0st", "💖✨✨✨,,,,👉👈💖💖,👉👈❤️👉👈💖💖✨🥺👉👈💖💖✨🥺,👉👈")]
+        public void TestStringDecode(string expectedResult, string input) => Assert.AreEqual(
+            expectedResult,
+            Bottomify.DecodeString(input)
+        );
+
 
         [TestMethod]
-        public void TestUnicodeStringEncode()
-        {
-            Assert.AreEqual(
-                "🫂✨✨✨✨👉👈💖💖💖🥺,,,,👉👈💖💖💖✨🥺👉👈💖💖💖✨✨✨🥺,👉👈",
-                Bottomify.EncodeString("🥺")
-            );
-            Assert.AreEqual(
-                "🫂✨✨🥺,,👉👈💖💖✨✨🥺,,,,👉👈💖💖✨✨✨✨👉👈🫂✨✨🥺,,👉👈" +
-                "💖💖✨✨✨👉👈💖💖✨✨✨✨🥺,,👉👈🫂✨✨🥺,,👉👈💖💖✨✨🥺,,,,👉👈" +
-                "💖💖💖✨✨🥺,👉👈🫂✨✨🥺,,👉👈💖💖✨✨✨👉👈💖💖✨✨✨✨👉👈",
-                Bottomify.EncodeString("がんばれ")
-            );
-        }
+        [DataRow("🫂✨✨✨✨👉👈💖💖💖🥺,,,,👉👈💖💖💖✨🥺👉👈💖💖💖✨✨✨🥺,👉👈", "🥺")]
+        [DataRow("🫂✨✨🥺,,👉👈💖💖✨✨🥺,,,,👉👈💖💖✨✨✨✨👉👈🫂✨✨🥺,,👉👈" +
+                 "💖💖✨✨✨👉👈💖💖✨✨✨✨🥺,,👉👈🫂✨✨🥺,,👉👈💖💖✨✨🥺,,,,👉👈" +
+                 "💖💖💖✨✨🥺,👉👈🫂✨✨🥺,,👉👈💖💖✨✨✨👉👈💖💖✨✨✨✨👉👈", "がんばれ")]
+        public void TestUnicodeStringEncode(string expectedResult, string input) => Assert.AreEqual(
+            expectedResult,
+            Bottomify.EncodeString(input)
+        );
+
 
         [TestMethod]
-        public void TestUnicodeStringDecode()
-        {
-            Assert.AreEqual(
-                "🥺",
-                Bottomify.DecodeString("🫂✨✨✨✨👉👈💖💖💖🥺,,,,👉👈💖💖💖✨🥺👉👈💖💖💖✨✨✨🥺,👉👈")
-            );
-            Assert.AreEqual(
-                "がんばれ",
-                Bottomify.DecodeString(
-                    "🫂✨✨🥺,,👉👈💖💖✨✨🥺,,,,👉👈💖💖✨✨✨✨👉👈🫂✨✨🥺,,👉👈" +
-                    "💖💖✨✨✨👉👈💖💖✨✨✨✨🥺,,👉👈🫂✨✨🥺,,👉👈💖💖✨✨🥺,,,,👉👈" +
-                    "💖💖💖✨✨🥺,👉👈🫂✨✨🥺,,👉👈💖💖✨✨✨👉👈💖💖✨✨✨✨👉👈"
-                )
-            );
-        }
+        [DataRow("🥺", "🫂✨✨✨✨👉👈💖💖💖🥺,,,,👉👈💖💖💖✨🥺👉👈💖💖💖✨✨✨🥺,👉👈")]
+        [DataRow("がんばれ", "🫂✨✨🥺,,👉👈💖💖✨✨🥺,,,,👉👈💖💖✨✨✨✨👉👈🫂✨✨🥺,,👉👈" + 
+                            "💖💖✨✨✨👉👈💖💖✨✨✨✨🥺,,👉👈🫂✨✨🥺,,👉👈💖💖✨✨🥺,,,,👉👈" + 
+                            "💖💖💖✨✨🥺,👉👈🫂✨✨🥺,,👉👈💖💖✨✨✨👉👈💖💖✨✨✨✨👉👈")]
+
+        public void TestUnicodeStringDecode(string expectedResult, string input) => Assert.AreEqual(
+            expectedResult,
+            Bottomify.DecodeString(input)
+        );
     }
 }
